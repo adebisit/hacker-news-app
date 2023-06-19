@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Latest News
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="formContainer">
+        <div class="infographics-container">
+            <h1 class="hacker-infographics">Hacker News</h1>
+        </div>
+        <form id="filter" method="get" action="{% url 'latest-news' %}">
+            <div class="form-group">
+                <input id="keyword" name="keyword" type="text" placeholder="Search..."/>
+                <select id="category" name="category">
+                    <option selected value="all">All</option>
+                    <option value="job">Job</option>
+                    <option value="story">Story</option>
+                    <option value="askhn">Ask HN</option>
+                    <option value="showhn">Show HN</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

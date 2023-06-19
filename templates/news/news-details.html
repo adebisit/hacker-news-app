@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ item.get_item_type_display }} - {{ item.title }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/news-details.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="postInfo">
+        <div class="news-card">
+            <div class="profile-card">
+                <img class="profile-image" src="{% static 'img/hacker.png' %}" alt="hacker-profile" />
+                <div class="overlay">
+                    <div class="text-overlay">
+                        <p>@{{item.author.username}}</p>
+                        <p>{{item.author.created|date:"F j, Y"}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="title">
+                    <p>{{ item.get_item_type_display }}</p>
+                    <h2>{{ item.title }}</h2>
+                    <span>{{ item.created_date|date:"F j, Y" }}</span>
+                </div>
+                <p class="subtitle">{{item.text}}</p>
+                {% if item.url %}
+                <div class="meta">
+                    <a href="{{item.url}}" target="_blank">
+                        <i class="fa-solid fa-link"></i> {{item.url}}
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="comments">
+            <h3 style="text-align: center; color: #007bff;">Comments</h3>
+            {% for comment in item.subitems.all|slice:":5"|dictsortreversed:"created_date" %}
+            <div class="comment-card" id="{{comment.item_id}}">
+                <div class="title">
+                    <h5><i class="fa-solid fa-comment"></i> {{ comment.author.username }}</h5>
+                    <span style="color: black;">{{ comment.created_date|date:"F j, Y h:i A" }}</span>
+                </div>
+                <div class="body">
+                    {% autoescape off %}
+                    <p>{{ comment.text }}</p>
+                    {% endautoescape %}
+                </div>
+                {% if comment.subitems.all %}
+                <button class="show-more">View Replies</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button id="show-more" class="show-more">Show More</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

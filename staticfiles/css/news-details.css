@@ -1,0 +1,76 @@
+.news-card {
+    display: flex;
+    align-items: flex-start;
+    margin: 2rem 0;
+    margin-bottom: 3rem;
+}
+
+.news-card .card-info {
+    margin-left: 20px;
+}
+.profile-card {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    border: .5px solid #007bff;
+    border-radius: 0.25rem;
+}
+.profile-image {
+    width: 100%;
+    
+}
+.overlay {
+    position: absolute;
+    bottom: 0;
+    font-size: 14px;
+    /* background-color: rgba(0, 123, 255, 0.6); */
+    background-color: rgba(128, 189, 255, 0.7);
+    width: 100%;
+    color: black;
+    font-weight: bold;
+}
+
+.news-card .title {
+    font-size: 15px;
+    /* margin: 10px 0; */
+    margin-bottom: 10px;
+}
+
+.news-card .title p {
+    font-size: 20px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.comment-card {
+    padding: 0.5rem 1rem;
+    border-left: 3px solid #007bff;
+    margin: 2rem 0
+}
+
+.comment-card .title {
+    font-size: 14px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.comment-card .body {
+    font-size: 14px;
+}
+
+.show-more {
+    background: none;
+    border: none;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+#show-more {
+    display: flex;
+    border: 1.5px solid #007bff;
+    padding: 0.5rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin: 1.5rem auto;
+}

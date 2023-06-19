@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Search - {{ query.keyword }} {% endblock %}
+
+{% block content %}
+<div class="filterFormContainer">
+    <form id="filter" method="get" action="{% url 'latest-news' %}">
+        <div class="form-group">
+            <input id="keyword" name="keyword" type="text" placeholder="Search..." value="{{ query.keyword }}"/>
+            <button type="submit">Search</button>
+        </div>
+    </form>
+</div>
+<hr>
+<div class="searchPage">
+    <section class="filter">
+        <div class="filter-options {{query.category}}">
+            <a class="filter-option" href="?keyword={{query.keyword}}&category=story&count={{pageObj.count}}" role="story">Story</a>
+            <a class="filter-option" href="?keyword={{query.keyword}}&category=job&count={{pageObj.count}}" role="job">Jobs</a>
+            <a class="filter-option" href="?keyword={{query.keyword}}&category=askhn&count={{pageObj.count}}" role="askhn">AskHN</a>
+            <a class="filter-option" href="?keyword={{query.keyword}}&category=showhn&count={{pageObj.count}}"role="showhn">ShowHN</a>
+            <a class="filter-option cancel" href="?keyword={{query.keyword}}&count={{pageObj.count}}">Remove Filter</a>
+        </div>
+    </section>
+    <div class="searchResult">
+        <p>Showing {{ items|length }} items</p>
+        <div class="items">
+            {% for item in items %}
+            <div class="item">
+                    <div style="display: flex; align-items: top;">
+                        <div style="margin-right: 15px;">
+                            {% if item.item_type == 'admin' %}
+                            <u>Admin</u>
+                            {% else %}
+                            <p>{{ item.get_item_type_display }}</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <div class="title">
+                                <a href="{% url 'news_details' item_id=item.item_id %}">
+                                    <h3>
+                                        {% if item.title %}
+                                        {{item.title}}
+                                        {% else %}
+                                        N/A
+                                        {% endif %}
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="subtitle">
+                                <p style="margin-right: 10px;">by <u>{{item.author.username}}</u></p>
+                                <p>{{item.created_date|date:"F j, Y"}}</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="">
+            <div>
+                Max of results per page 
+                <select id="pageCount" onchange="changePageCount()">
+                    <option {% if pageObj.count == 25 %}selected{% endif %}value="25">25</option>
+                    <option {% if pageObj.count == 50 %}selected{% endif %} value="50">50</option>
+                    <option {% if pageObj.count == 75 %}selected{% endif %} value="75">75</option>
+                    <option {% if pageObj.count == 100 %}selected{% endif %} value="100">100</option>
+                </select>
+            </div>
+            <div class="paginationContainer" style="margin: 1rem 0; display: flex; justify-content: center;">
+                <div class="pagination">
+                    {% if pageObj.prev %}
+                    <a href="?keyword={{query.keyword}}&category={{query.category|default:'all'}}&page={{pageObj.prev}}&count={{pageObj.count}}">Prev</a>
+                    {% endif %}
+                    {{ pageObj.page }}
+                    {% if pageObj.next %}
+                    <a href="?keyword={{query.keyword}}&category={{query.category|default:'all'}}&page={{pageObj.next}}&count={{pageObj.count}}">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block inline-scripts %}
+<script>
+    changePageCount = () => {
+        window.location.href = "/search?keyword={{query.keyword}}&category={{query.category|default:'all'}}&count=" + document.getElementById("pageCount").value
+    }
+</script>
+{% endblock %}

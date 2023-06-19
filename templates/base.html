@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Hacker News{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/b368f63178.js" crossorigin="anonymous"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="navBar">
+        <div>
+            <h2 id="page-icon"><a href="/" style="color: black;">Hacker News!</a></h2>
+        </div>
+        <ul class="navItems">
+            <li class="navItem">
+                <a href="/search?category=story">Story</a>
+            </li>
+            <li class="navItem">
+                <a href="/search?category=job">Job</a>
+            </li>
+            <li class="navItem">
+                <a href="/search?category=askhn">Ask HN</a>
+            </li>
+            <li class="navItem">
+                <a href="/search?category=showhn">Show HN</a>
+            </li>
+        </ul>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Specific content for child templates goes here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <span>&copy; Quick Check Interview Task by Taiwo Adebisi</span>
+        <a href="https://www.linkedin.com/in/taiwoadebisi/"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://github.com/adebisit"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.taiwo.dev/"><i class="fa-solid fa-globe"></i></a>
+    </footer>
+</body>
+{% block inline-scripts %}
+{% endblock %}
+</html>
