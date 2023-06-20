@@ -188,13 +188,19 @@ section.filter {
 .filter-options.all .filter-option[role='all'],
 .filter-options.job .filter-option[role='job'],
 .filter-options.story .filter-option[role='story'],
-.filter-options.askhn .filter-option[role='askhn'],
-.filter-options.showhn .filter-option[role='showhn']
+.filter-options.ask .filter-option[role='ask'],
+.filter-options.show .filter-option[role='show']
 {
     background-color: #007bff;
     color: white;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
+}
+
+
+.filter-option.experimental {
+    display: flex;
+    justify-content: space-between;
 }
 
 .filter-option {
