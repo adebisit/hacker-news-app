@@ -18,8 +18,14 @@
             <a class="filter-option" href="?keyword={{query.keyword}}&category=all&count={{pageObj.count}}" role="all">All</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=story&count={{pageObj.count}}" role="story">Story</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=job&count={{pageObj.count}}" role="job">Jobs</a>
-            <a class="filter-option" href="?keyword={{query.keyword}}&category=askhn&count={{pageObj.count}}" role="askhn">AskHN</a>
-            <a class="filter-option" href="?keyword={{query.keyword}}&category=showhn&count={{pageObj.count}}"role="showhn">ShowHN</a>
+            <a class="filter-option experimental" href="?keyword={{query.keyword}}&category=ask&count={{pageObj.count}}" role="ask">
+                <span>Ask</span>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </a>
+            <a class="filter-option experimental" href="?keyword={{query.keyword}}&category=show&count={{pageObj.count}}"role="show">
+                <span>Show</span>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </a>
             <label for="checkbox-id" class="filter-option">
                 <input type="checkbox" id="admin-only-filter" name="admin-filter" onchange="applyAdminOnlyFilter()" {% if query.admin %}checked{% endif %}>
                 Admin Only
@@ -34,7 +40,7 @@
             {% for item in items %}
             <div class="item">
                     <div style="display: flex; align-items: top;">
-                        <div style="margin-right: 15px;">
+                        <div style="margin-right: 15px; font-weight: bold;">
                             {% if item.category == 'admin' %}
                             <u>Admin</u>
                             {% else %}

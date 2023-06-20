@@ -19,8 +19,14 @@ def latest_news(request):
     page = int(request.GET.get("page", "1"))
 
     items = Item.objects.filter((Q(text__icontains=keyword) | Q(title__icontains=keyword)) & ~Q(category="comment") & Q(is_admin=admin))
-    if category and category != "all" and category.lower() != "none":
-        items = items.filter(Q(category=category))
+    if category == "story" or category == "job":
+        items = items.filter(category=category)
+    elif category == "ask":
+        items = items.filter(title__istartswith="Ask HN")
+    elif category == "show":
+        items = items.filter(title__istartswith="Show HN")
+    else:
+        category = "all"
     
     context = {
         "items": items[(page - 1) * count : page * count],

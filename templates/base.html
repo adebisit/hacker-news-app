@@ -16,16 +16,17 @@
         </div>
         <ul class="navItems">
             <li class="navItem">
-                <a href="/search?category=story">Story</a>
+                <!-- <a href="/search?category=story">Story</a> -->
+                <a href="{% url 'latest-news' %}?category=story">Story</a>
             </li>
             <li class="navItem">
                 <a href="/search?category=job">Job</a>
             </li>
             <li class="navItem">
-                <a href="/search?category=askhn">Ask HN</a>
+                <a href="/search?category=askhn">Ask</a>
             </li>
             <li class="navItem">
-                <a href="/search?category=showhn">Show HN</a>
+                <a href="/search?category=showhn">Show</a>
             </li>
         </ul>
     </header>

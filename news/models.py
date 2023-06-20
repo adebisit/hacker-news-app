@@ -5,6 +5,8 @@ from django.db import models
 CATEGORY_CHOICE = [
     ("job", "Job"),
     ("story", "Story"),
+    ('show', "Show"),
+    ('ask', "Ask"),
     ("comment", "Comment"),
     ("poll", "Poll"),
     ("pollopt", "Poll Opt")

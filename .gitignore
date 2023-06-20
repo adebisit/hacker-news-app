@@ -2,8 +2,14 @@
 .env
 db.sqlite3
 dump.rdb
+aws/
 Output/
 static/
 migrations/
 venv/
 __pycache__/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

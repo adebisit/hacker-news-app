@@ -25,9 +25,17 @@ def get_history():
     print(f"Max Item ID from API = {max_item_id}")
     print(f"Current Max Item ID from DB = {max_item_no_db}")
     print(f"Catching up with {max_item_id - max_item_no_db}")
-    while max_item_no_db < max_item_id:
+    stories_left = 100
+    while max_item_no_db < max_item_id and stories_left > 0:
         max_item_no_db += 1
         get_item.delay(max_item_no_db)
+
+
+def get_latest():
+    resp = requests.get("https://hacker-news.firebaseio.com/v0/jobstories.json")
+    ids = resp.json()
+    for id in ids:
+        get_item.delay(id)
 
 
 @app.task
@@ -44,6 +52,9 @@ def get_item(id):
 
     try:
         item_db = Item.objects.get(item_id=item["id"])
+        if item_db.category == "story" and item["type"] != "story":
+            item_db.category = item["type"]
+            
     except Item.DoesNotExist:
         item_db = Item(
             item_id = item["id"],
