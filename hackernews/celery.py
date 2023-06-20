@@ -11,12 +11,20 @@ app = Celery(
     broker='redis://localhost:6379/1',
     backend='redis://localhost:6379'
 )
-app.config_from_object(settings, namespace='CELERY')
 
+
+app.config_from_object(settings, namespace='CELERY')
 app.autodiscover_tasks()
 
 
-@app.task(bind=True)
-def debug_task(self):
-    print("Request: {0!r}".format(self.request))
-
+app.conf.beat_schedule = {
+    'get-latest-news-items': {
+        'task': 'news.tasks.get_history',
+        'schedule': 300.0,
+    },
+    'get-latest-job-news-items': {
+        'task': 'news.tasks.get_latest',
+        'schedule': 300.0,
+    }
+}
+app.conf.timezone = 'UTC'

@@ -31,6 +31,7 @@ def get_history():
         get_item.delay(max_item_no_db)
 
 
+@app.task
 def get_latest():
     resp = requests.get("https://hacker-news.firebaseio.com/v0/jobstories.json")
     ids = resp.json()

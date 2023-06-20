@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 CATEGORY_CHOICE = [
     ("job", "Job"),
@@ -11,6 +10,7 @@ CATEGORY_CHOICE = [
     ("poll", "Poll"),
     ("pollopt", "Poll Opt")
 ]
+
 
 class Author(models.Model):
     username = models.CharField(max_length=255, unique=True)

@@ -107,7 +107,7 @@
 
     applyAdminOnlyFilter = () => {
         var adminOnlyFilter = document.getElementById("admin-only-filter");
-        var url = `/search?keyword={{query.keyword}}&category={{query.category|default:'all'}}&count=${document.getElementById("pageCount").value}`
+        var url = `/search?keyword={{query.keyword}}&category={{query.category|default:'all'}}&count=${document.getElementById("pageCount")?.value || 25}`
         if (adminOnlyFilter.checked) {
             url += '&admin=1'
         }

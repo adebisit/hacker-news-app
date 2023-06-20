@@ -2,14 +2,10 @@
 .env
 db.sqlite3
 dump.rdb
+celerybeat-schedule.db
 aws/
 Output/
 static/
 migrations/
 venv/
 __pycache__/
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml

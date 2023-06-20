@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.db.models import Q
 from news.models import Item
-from pprint import pprint
 from django.http import JsonResponse
 
-
-# Create your views here.
 
 def home(request):
     return render(request, 'news/home.html')
@@ -28,7 +25,7 @@ def latest_news(request):
     else:
         category = "all"
     
-    context = {
+    return render(request, 'news/search.html', context = {
         "items": items[(page - 1) * count : page * count],
         "query": {
             "keyword": keyword,
@@ -41,9 +38,7 @@ def latest_news(request):
             "prev": page - 1 if page != 1 else None,
             "count": count
         }
-    }
-    pprint(context)
-    return render(request, 'news/search.html', context = context)
+    })
 
 
 def news_details(request, pk):
@@ -52,6 +47,7 @@ def news_details(request, pk):
     except Item.DoesNotExist:
         item = None
     return render(request, 'news/news-details.html', context={"item": item})
+
 
 def get_sub_items(request, pk):
     try:
