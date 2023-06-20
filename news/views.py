@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .forms import NewsFilterForm
 from django.db.models import Q
-from news.models import BaseItem
+from news.models import Item
 from pprint import pprint
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -14,20 +14,20 @@ def home(request):
 def latest_news(request):
     keyword = request.GET.get("keyword", "")
     category = request.GET.get("category")
+    admin = bool(request.GET.get('admin', None))
     count = int(request.GET.get("count", "25"))
     page = int(request.GET.get("page", "1"))
 
-    items = BaseItem.objects.filter((Q(text__icontains=keyword) | Q(title__icontains=keyword)) & ~Q(item_type="comment"))
+    items = Item.objects.filter((Q(text__icontains=keyword) | Q(title__icontains=keyword)) & ~Q(category="comment") & Q(is_admin=admin))
     if category and category != "all" and category.lower() != "none":
-        items = items.filter(Q(item_type=category))
+        items = items.filter(Q(category=category))
     
-    # print(f"Page = {page}, Count = {count}, no_items = {items.count()}")
-    # print(f"[{(page - 1) * count}:{page * count}]")
-    return render(request, 'news/search.html', context = {
+    context = {
         "items": items[(page - 1) * count : page * count],
         "query": {
             "keyword": keyword,
-            "category": category if category != "all" else None
+            "category": category,
+            "admin": admin
         },
         "pageObj": {
             "next": page + 1 if (items.count() > (page * count))  else None,
@@ -35,12 +35,29 @@ def latest_news(request):
             "prev": page - 1 if page != 1 else None,
             "count": count
         }
-    })
+    }
+    pprint(context)
+    return render(request, 'news/search.html', context = context)
 
 
-def news_details(request, item_id):
+def news_details(request, pk):
     try:
-        item = BaseItem.objects.get(item_id=item_id)
-    except BaseItem.DoesNotExist:
+        item = Item.objects.get(pk=pk)
+    except Item.DoesNotExist:
         item = None
     return render(request, 'news/news-details.html', context={"item": item})
+
+def get_sub_items(request, pk):
+    try:
+        items = Item.objects.filter(parent__id=pk)
+        data = []
+        for item in items:
+            data.append({
+                "author": item.author.username if item.author else None,
+                "date": item.created_date,
+                "text": item.text
+            })
+    except Item.DoesNotExist:
+        data = []
+
+    return JsonResponse(data, safe=False)

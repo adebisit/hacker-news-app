@@ -3,7 +3,7 @@ import json
 from hackernews.celery import app
 from pprint import pprint
 import os
-from news.models import BaseItem, Author
+from news.models import Item, Author
 from django.db.models import Max
 from datetime import datetime
 from pytz import timezone
@@ -21,7 +21,7 @@ def get_max_item():
 @app.task
 def get_history():
     max_item_id = get_max_item()
-    max_item_no_db = BaseItem.objects.aggregate(max_item_id=Max("item_id"))["max_item_id"]
+    max_item_no_db = Item.objects.aggregate(max_item_id=Max("item_id"))["max_item_id"]
     print(f"Max Item ID from API = {max_item_id}")
     print(f"Current Max Item ID from DB = {max_item_no_db}")
     print(f"Catching up with {max_item_id - max_item_no_db}")
@@ -38,16 +38,16 @@ def get_item(id):
     parent = None
     if "parent" in item:
         try:
-            parent = BaseItem.objects.get(item_id=item["parent"])
-        except BaseItem.DoesNotExist:
+            parent = Item.objects.get(item_id=item["parent"])
+        except Item.DoesNotExist:
             get_item(item["parent"])
 
     try:
-        item_db = BaseItem.objects.get(item_id=item["id"])
-    except BaseItem.DoesNotExist:
-        item_db = BaseItem(
+        item_db = Item.objects.get(item_id=item["id"])
+    except Item.DoesNotExist:
+        item_db = Item(
             item_id = item["id"],
-            item_type = item["type"],
+            category = item["type"],
             created_date = utc.localize(datetime.utcfromtimestamp(item["time"])) if item.get("time") else None,    
         )
     
@@ -90,5 +90,4 @@ def get_user(user_id):
             author.save()
         except IntegrityError:
             pass
-
     return author

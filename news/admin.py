@@ -1,25 +1,25 @@
 from django.contrib import admin
-from .models import Author, BaseItem
+from .models import Author, Item
 
 
 # Register your models here.
 
-class BaseItemInline(admin.TabularInline):
-    model = BaseItem
+class ItemInline(admin.TabularInline):
+    model = Item
 
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ("username", "created", "karma", "no_submitted")
-    inlines = [BaseItemInline]
+    inlines = [ItemInline]
 
-@admin.register(BaseItem)
-class BaseItemAdmin(admin.ModelAdmin):
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
     list_display = (
-        "item_type",
+        "category",
         "created_date",
         "author",
         "url",
         "score"
     )
-    inlines = [BaseItemInline]
+    inlines = [ItemInline]

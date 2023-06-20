@@ -15,13 +15,19 @@
 <div class="searchPage">
     <section class="filter">
         <div class="filter-options {{query.category}}">
+            <a class="filter-option" href="?keyword={{query.keyword}}&category=all&count={{pageObj.count}}" role="all">All</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=story&count={{pageObj.count}}" role="story">Story</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=job&count={{pageObj.count}}" role="job">Jobs</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=askhn&count={{pageObj.count}}" role="askhn">AskHN</a>
             <a class="filter-option" href="?keyword={{query.keyword}}&category=showhn&count={{pageObj.count}}"role="showhn">ShowHN</a>
-            <a class="filter-option cancel" href="?keyword={{query.keyword}}&count={{pageObj.count}}">Remove Filter</a>
+            <label for="checkbox-id" class="filter-option">
+                <input type="checkbox" id="admin-only-filter" name="admin-filter" onchange="applyAdminOnlyFilter()" {% if query.admin %}checked{% endif %}>
+                Admin Only
+            </label>
+            <!-- <a class="filter-option cancel" href="?keyword={{query.keyword}}&count={{pageObj.count}}">Remove Filter</a> -->
         </div>
     </section>
+    {% if items %}
     <div class="searchResult">
         <p>Showing {{ items|length }} items</p>
         <div class="items">
@@ -29,22 +35,22 @@
             <div class="item">
                     <div style="display: flex; align-items: top;">
                         <div style="margin-right: 15px;">
-                            {% if item.item_type == 'admin' %}
+                            {% if item.category == 'admin' %}
                             <u>Admin</u>
                             {% else %}
-                            <p>{{ item.get_item_type_display }}</p>
+                            <p>{{ item.get_category_display }}</p>
                             {% endif %}
                         </div>
                         <div>
                             <div class="title">
-                                <a href="{% url 'news_details' item_id=item.item_id %}">
-                                    <h3>
+                                <a href="{% url 'news_details' pk=item.pk %}">
+                                    <h4 style="font-weight: bold;">
                                         {% if item.title %}
                                         {{item.title}}
                                         {% else %}
                                         N/A
                                         {% endif %}
-                                    </h3>
+                                    </h4s>
                                 </a>
                             </div>
                             <div class="subtitle">
@@ -79,6 +85,11 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div>
+        No results found
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
@@ -86,6 +97,15 @@
 <script>
     changePageCount = () => {
         window.location.href = "/search?keyword={{query.keyword}}&category={{query.category|default:'all'}}&count=" + document.getElementById("pageCount").value
+    }
+
+    applyAdminOnlyFilter = () => {
+        var adminOnlyFilter = document.getElementById("admin-only-filter");
+        var url = `/search?keyword={{query.keyword}}&category={{query.category|default:'all'}}&count=${document.getElementById("pageCount").value}`
+        if (adminOnlyFilter.checked) {
+            url += '&admin=1'
+        }
+        window.location.href = url
     }
 </script>
 {% endblock %}

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;1,700&family=Open+Sans:wght@400;600;700&display=swap');
 
 * {
     box-sizing: border-box;
@@ -9,7 +10,8 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 
 body {
@@ -39,6 +41,10 @@ a:hover {
     text-decoration: underline;
 }
 
+#page-icon {
+    letter-spacing: 2.5px;
+    color: #333;
+}
 
 #page-icon > a:hover {
     text-decoration: none;
@@ -75,7 +81,9 @@ header {
 }
 
 .navItem {
-    margin: 0 1em;
+    margin: 0 1.5em;
+    letter-spacing: 2px;
+    font-weight: 600;
 }
 
 
@@ -127,6 +135,8 @@ header {
     padding: 0.75rem 0 ;
     width: 200px;
     border-radius: 0.25rem;
+    font-size: 15px;
+    letter-spacing: 2px;
     border: 1px solid grey;
     background-color: #007bff;
     color: white;
@@ -174,6 +184,8 @@ section.filter {
     margin-right: 2rem;
 }
 
+
+.filter-options.all .filter-option[role='all'],
 .filter-options.job .filter-option[role='job'],
 .filter-options.story .filter-option[role='story'],
 .filter-options.askhn .filter-option[role='askhn'],

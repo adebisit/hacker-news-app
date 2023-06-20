@@ -10,8 +10,8 @@
 }
 .profile-card {
     position: relative;
-    height: 150px;
-    width: 150px;
+    max-height: 150px;
+    max-width: 150px;
     border: .5px solid #007bff;
     border-radius: 0.25rem;
 }
@@ -63,6 +63,7 @@
     border: none;
     color: #007bff;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 #show-more {
