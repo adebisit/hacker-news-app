@@ -14,19 +14,27 @@ The Django-based Hackernews application has been designed to regularly collect i
 ### Requirements
 
 **Python3.10 and above**
-To install python, please follow the documentation on the official site.
+To install python, please follow the documentation on the official download site https://www.python.org/downloads/
 
 **Redis**
+Install Redis on the following OS
 
-Install Redis
+MAC: https://developer.redis.com/create/homebrew/
+
+Linux: https://developer.redis.com/create/linux/
+
+Windows: https://developer.redis.com/create/windows
+
+To run the redis-server once installed:
+```
+$ redis-server
+```
 
 ### Setup
 **Clone the repository**
 ```
-git clone <repository-url>
-cd your-react-app
-npm install
-npm start
+git clone https://github.com/adebisit/hacker-news-app.git
+cd hacker-news-app
 ```
 
 **Setup virtual environment**
@@ -42,8 +50,8 @@ $ pip install -r requirements.txt
 Create a `.env` file to store the enviroment variables. They are listed below;
 ```
 $ touch .env
-$ echo SECRET_KEY
-$ echo DEBUG
+$ echo SECRET_[KEY=your_secret_key] >> .env
+$ echo DEBUG=[your_debug_value] >> .env
 ```
 | Env Var | Description |
 |---------|-------------|
@@ -52,26 +60,35 @@ $ echo DEBUG
 
 **Migrate Database**
 
-Because the application uses sqlite, you can run the following command and the `db.sqlite` file will be create automatically.
+Because the application uses sqlite, running the following command will create the `db.sqlite` file automatically.
 
-```python manage.py migrate```
+```
+$ python manage.py migrate
+```
 
 ## Running The application
 
 Start the Redis Server:
 
-```redis-server```
+```
+$ redis-server
+```
 
 Start the Celery Server:
 
-```celery -A hackernews worker -l info```
+```
+$ celery -A hackernews worker -l info
+```
 
 Run Django App
 
-```python manage.py runserver```
+```
+$ python manage.py runserver
+```
 
 ### Usage
-By default, there is no data on the databas, as a result, pages will return empty values. You can run the tasks found in `news/tasks.py` to populate historic data.
+By default, there is no data on the databas, therefore, pages will return no data. The Tasks found in `news/tasks.py` file can be passed to the celery worker to populate the database to the most recent post available on Hacker News API. Do note however, that running this will take a substancial amount of time.
+
 ```
 $ python manage.py shell
 $ from news import tasks
